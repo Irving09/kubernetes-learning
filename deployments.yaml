@@ -1,8 +1,10 @@
 # Replica sets dont require you to write separate pod yaml files
+# An entity in kubernetes that manages the replica set for you
+# Basically a replica set that has extra features like automatic rolling updates
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: app-replica-set
+  name: app
 spec:
   selector:
     matchLabels:
