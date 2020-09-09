@@ -1,0 +1,18 @@
+# Replica sets dont require you to write separate pod yaml files
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app-replica-set
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 1
+  template: # template for the pods - pod definitions
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: innoirvingdev/hello-node:2.0
