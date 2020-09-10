@@ -18,4 +18,4 @@ spec:
     spec:
       containers:
       - name: app
-        image: innoirvingdev/hello-node:5.0
+        image: innoirvingdev/hello-springboot:3.0
