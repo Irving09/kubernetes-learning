@@ -1,0 +1,21 @@
+# Replica sets dont require you to write separate pod yaml files
+# An entity in kubernetes that manages the replica set for you
+# Basically a replica set that has extra features like automatic rolling updates
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: app
+  replicas: 2
+  template: # template for the pods - pod definitions
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: innoirvingdev/hello-node:5.0
