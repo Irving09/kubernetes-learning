@@ -6,7 +6,7 @@ kind: Deployment
 metadata:
   name: app
 spec:
-  minReadySeconds: 30
+  # minReadySeconds: 30
   selector:
     matchLabels:
       app: app

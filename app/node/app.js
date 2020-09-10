@@ -1,5 +1,6 @@
 const http = require('http');
 const os = require('os');
+const appVersion = 5;
 
 const listenerPort = 8080;
 console.log('Inno\'s app server is starting...');
@@ -10,8 +11,9 @@ const handler = (request, response) => {
   const clientIp = request.connection.remoteAddress;
   console.log('Received request for', request.url, 'from', clientIp);
   response.writeHead(200);
-  response.write(`Hey there, this is: ${os.hostname()}\n`);
-  response.write(`Client ip is: ${clientIp}`);
+  response.write(`hostname: ${os.hostname()}\n`);
+  response.write(`client ip: ${clientIp}\n`);
+  response.write(`app version: ${appVersion}`);
   response.end('\n');
 }
 
