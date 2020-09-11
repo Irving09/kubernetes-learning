@@ -19,13 +19,13 @@ spec:
     spec:
       containers:
       - name: app
-        image: innoirvingdev/hello-springboot:6.0
+        image: innoirvingdev/hello-springboot:7.0
         imagePullPolicy: Always
         # Lets cluster manager know a pod is able to run on a node or not
-        resources:
-          requests:
-            memory: 300Mi # 300 megabytes of memory in cluster
-                          # is required for this pod
+        # resources:
+        #   requests:
+        #     memory: 300Mi # 300 megabytes of memory in cluster
+        #                   # is required for this pod
 
 ---
 
@@ -49,7 +49,7 @@ spec:
         image: innoirvingdev/hello-node:6.0
         imagePullPolicy: Always
         # Lets cluster manager know a pod is able to run on a node or not
-        resources:
-          requests:
-            memory: 300Mi # 300 megabytes of memory in cluster
-                          # is required for this pod
+        # resources:
+        #   requests:
+        #     memory: 300Mi # 300 megabytes of memory in cluster
+        #                   # is required for this pod
