@@ -1,4 +1,4 @@
-# Running a NodeJS app in the local minikube cluster
+# Running a Springboot app in the local minikube cluster
 ```
 cd app
 docker pull innoirvingdev/hello-springboot:3.0
