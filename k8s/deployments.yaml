@@ -4,18 +4,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: springboot
 spec:
   # minReadySeconds: 30
   selector:
     matchLabels:
-      app: app
+      app: springboot
   replicas: 2
   template: # template for the pods - pod definitions
     metadata:
       labels:
-        app: app
+        app: springboot
     spec:
       containers:
       - name: app
-        image: innoirvingdev/hello-springboot:3.0
+        image: innoirvingdev/hello-springboot:6.0
+        imagePullPolicy: Always
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs
+spec:
+  # minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: nodejs
+  replicas: 2
+  template: # template for the pods - pod definitions
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: app
+        image: innoirvingdev/hello-node:6.0
+        imagePullPolicy: Always

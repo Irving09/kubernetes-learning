@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: springboot
 spec:
   # Defines which pod are going to be represented by this service
   selector:
-    app: app
+    app: springboot
   # Define which ports u are exposing for this service
   # it means it is going to accept traffic at port 80
   # and forwards traffic to 8080 for pods
@@ -19,6 +19,29 @@ spec:
                     # 30080
   type: NodePort # Expose a port through the (Node) Virtual machine
   # type: ClusterIP # will only be accessible in the internal cluster - private services
+
+---
+
+# Discovery + Loadbalancing
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs
+spec:
+  # Defines which pod are going to be represented by this service
+  selector:
+    app: nodejs
+  # Define which ports u are exposing for this service
+  # it means it is going to accept traffic at port 80
+  # and forwards traffic to 8080 for pods
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 8080
+    nodePort: 30081 # Only used for NodePort, anything greater than 30000
+                    # 30080
+  type: NodePort # Expose a port through the (Node) Virtual machine
 
 # ---
 # apiVersion: v1

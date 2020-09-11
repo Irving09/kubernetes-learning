@@ -16,11 +16,20 @@ public class Host {
   private final String hostname;
   private final String clientIp;
   private final String appVersion;
+  private final String message;
 
   public Host(String hostname, String clientIp, String appVersion) {
     this.hostname = hostname;
     this.clientIp = clientIp;
     this.appVersion = appVersion;
+    this.message = "none";
+  }
+
+  public Host(String hostname, String clientIp, String appVersion, String message) {
+    this.hostname = hostname;
+    this.clientIp = clientIp;
+    this.appVersion = appVersion;
+    this.message = message;
   }
 
   public String getHostname() {
@@ -33,5 +42,9 @@ public class Host {
 
   public String getAppVersion() {
     return appVersion;
+  }
+
+  public String getMessage() {
+    return message;
   }
 }
