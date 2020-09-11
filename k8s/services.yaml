@@ -15,9 +15,7 @@ spec:
   - name: http
     port: 80
     targetPort: 8080
-    nodePort: 30080 # Only used for NodePort, anything greater than 30000
-                    # 30080
-  type: NodePort # Expose a port through the (Node) Virtual machine
+  type: LoadBalancer
   # type: ClusterIP # will only be accessible in the internal cluster - private services
 
 ---
@@ -37,11 +35,9 @@ spec:
   # and forwards traffic to 8080 for pods
   ports:
   - name: http
-    port: 3000
+    port: 80
     targetPort: 8080
-    nodePort: 30081 # Only used for NodePort, anything greater than 30000
-                    # 30080
-  type: NodePort # Expose a port through the (Node) Virtual machine
+  type: LoadBalancer
 
 # ---
 # apiVersion: v1
