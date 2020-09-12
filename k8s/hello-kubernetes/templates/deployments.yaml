@@ -1,0 +1,28 @@
+# Deployment objects is pretty much the same as replica sets with extra features
+# An entity in kubernetes that manages the replica set for you
+# Basically the same as replica set object but it does automatic rolling updates
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  # minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  template: # template for the pods - pod definitions
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    
+    spec:
+      containers:
+      - name: app
+        image: innoirvingdev/{{ .Release.Name }}:latest
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        # Lets cluster manager know a pod is able to run on a node or not
+        # resources:
+        #   requests:
+        #     memory: 300Mi # 300 megabytes of memory in cluster
+        #                   # is required for this pod
