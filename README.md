@@ -7,7 +7,7 @@ helm install hello-nodejs ./hello-kubernetes
 
 # Running a NodeJS and Springboot app in kubernetes
 `minikube ip`
->>192.168.64.6
+>192.168.64.6
 
 ```
 curl 192.168.64.6:30080/hello
