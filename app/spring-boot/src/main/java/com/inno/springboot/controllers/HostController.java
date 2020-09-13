@@ -51,7 +51,7 @@ public class HostController {
     logger.info("Received request for " + hostname + " from " + clientIp);
 
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response = restTemplate.getForEntity("http://nodejs/hello", String.class);
+    ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
     Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
     return new NodeJSResponse(host, response);
   }
