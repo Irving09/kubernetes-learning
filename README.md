@@ -20,7 +20,7 @@ helm install hello-nodejs ./hello-kubernetes
 >192.168.64.6
 
 ```
-curl 192.168.64.6:30080/hello
-curl 192.168.64.6:30081/hello
+curl 192.168.64.6:30080/hello (spring boot app)
+curl 192.168.64.6:30081/hello (nodejs app)
 curl 192.168.64.6:30081/helloNode
 ```
