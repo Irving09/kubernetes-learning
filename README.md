@@ -1,3 +1,13 @@
+# Prerequisites
+- minikube
+- helm
+- kubectl
+
+# Starting the cluster
+```
+minikube start --memory 4096 --cpus 4 --driver=hyperkit
+```
+
 # Install both applications in local cluster
 ```
 cd k8s
