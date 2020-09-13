@@ -33,7 +33,7 @@ public class DummyComputation {
       executorService.submit(new Runnable() {
 
         public void run() {
-          for (int i=0; i < 50; i++) {
+          for (int i=0; i < 15; i++) {
             System.out.println(ID+" worker: "+i + ": " + fib(new BigInteger(String.valueOf(i))));
           }
         }
