@@ -26,4 +26,4 @@ spec:
         resources:
           requests:
             cpu: 20m # m - millicores
-                     # M - megacores 
+                     # M - megacores

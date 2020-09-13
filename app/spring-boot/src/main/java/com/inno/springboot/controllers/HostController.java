@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.inno.springboot.models.Host;
 import com.inno.springboot.models.NodeJSResponse;
+import com.inno.springboot.processors.DummyComputation;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -33,6 +34,12 @@ public class HostController {
 
   private final String appVersion = "1.0";
 
+  private final DummyComputation computer;
+
+  public HostController(DummyComputation dummyComputation) {
+    this.computer = dummyComputation;
+  }
+
   @GetMapping("/hello")
   public Host helloClient(HttpServletRequest request) throws UnknownHostException {
     String hostname = InetAddress.getLocalHost().getHostName();
@@ -40,6 +47,7 @@ public class HostController {
 
     logger.info("Received request for " + hostname + " from " + clientIp);
 
+    computer.calculate();
     return new Host(hostname, clientIp, appVersion, "Spring Boot");
   }
 
@@ -53,6 +61,7 @@ public class HostController {
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
     Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
+    computer.calculate();
     return new NodeJSResponse(host, response);
   }
 
