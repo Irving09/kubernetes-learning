@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}
+
     
     spec:
       containers:
@@ -22,7 +23,7 @@ spec:
         image: innoirvingdev/{{ .Release.Name }}:latest
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         # Lets cluster manager know a pod is able to run on a node or not
-        # resources:
-        #   requests:
-        #     memory: 300Mi # 300 megabytes of memory in cluster
-        #                   # is required for this pod
+        resources:
+          requests:
+            cpu: 20m # m - millicores
+                     # M - megacores 
