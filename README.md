@@ -13,18 +13,18 @@ echo "export PATH=${PATH}:/usr/local/bin/istio-1.7.1/bin" >> ~/.zhrc
 source ~/.bash_profile
 source ~/.zhrc
 istioctl version
-istioctl install
 ```
 
 ## Starting the cluster
 ```
-minikube start --memory 4096 --cpus 4 --driver=hyperkit
+minikube start --kubernetes-version=v1.19.1 --memory=6g --cpus 4 --driver=hyperkit --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook
 minikube addons enable metrics-server
 minikube addons enable ingress
 ```
 
 ## Configuring the cluster to inject sidecar proxies
 ```
+istioctl install
 k label namespace default istio-injection=enabled
 ```
 
