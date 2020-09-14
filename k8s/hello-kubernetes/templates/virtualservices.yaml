@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}-routing
+  namespace: default
+spec:
+  hosts:
+  - reviews # interpreted as reviews.foo.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: "/wpcatalog"
+    - uri:
+        prefix: "/consumercatalog"
+    rewrite:
+      uri: "/newcatalog"
+    route:
+    - destination:
+        host: reviews # interpreted as reviews.foo.svc.cluster.local
+        subset: v2
+  - route:
+    - destination:
+        host: reviews # interpreted as reviews.foo.svc.cluster.local
+        subset: v1
