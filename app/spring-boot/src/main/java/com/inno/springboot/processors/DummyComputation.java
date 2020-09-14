@@ -34,7 +34,7 @@ public class DummyComputation {
 
         public void run() {
           for (int i=0; i < 15; i++) {
-            System.out.println(ID+" worker: "+i + ": " + fib(new BigInteger(String.valueOf(i))));
+            fib(new BigInteger(String.valueOf(i)));
           }
         }
       });

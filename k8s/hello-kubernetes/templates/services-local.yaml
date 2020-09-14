@@ -14,14 +14,14 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 8080
+    targetPort: {{ .Values.app.port }}
     nodePort:  
       {{- if eq .Release.Name "hello-springboot" }}
         30080
       {{- else }}
         30081
       {{ end }}
-  type: NodePort # Expose a port through the Virtual machine (Node)
+  type: NodePort # Expose a port for local development
 
 ---
 
