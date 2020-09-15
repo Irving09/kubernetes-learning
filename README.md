@@ -5,20 +5,28 @@
 - istioctl
 
 `minikube version`
->minikube version: v1.13.0
+```
+minikube version: v1.13.0
 commit: eeb05350f8ba6ff3a12791fcce350c131cb2ff44
+```
 
 `helm version`
->version.BuildInfo{Version:"v3.3.1", GitCommit:"249e5215cde0c3fa72e27eb7a30e8d55c9696144", GitTreeState:"dirty", GoVersion:"go1.15"}
+```
+version.BuildInfo{Version:"v3.3.1", GitCommit:"249e5215cde0c3fa72e27eb7a30e8d55c9696144", GitTreeState:"dirty", GoVersion:"go1.15"}
+```
 
 `kubectl version`
->Client Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.1", GitCommit:"206bcadf021e76c27513500ca24182692aabd17e", GitTreeState:"clean", BuildDate:"2020-09-09T19:10:58Z", GoVersion:"go1.15.1", Compiler:"gc", Platform:"darwin/amd64"}
->Server Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.1", GitCommit:"206bcadf021e76c27513500ca24182692aabd17e", GitTreeState:"clean", BuildDate:"2020-09-09T11:18:22Z", GoVersion:"go1.15", Compiler:"gc", Platform:"linux/amd64"}
+```
+Client Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.1", GitCommit:"206bcadf021e76c27513500ca24182692aabd17e", GitTreeState:"clean", BuildDate:"2020-09-09T19:10:58Z", GoVersion:"go1.15.1", Compiler:"gc", Platform:"darwin/amd64"}
+Server Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.1", GitCommit:"206bcadf021e76c27513500ca24182692aabd17e", GitTreeState:"clean", BuildDate:"2020-09-09T11:18:22Z", GoVersion:"go1.15", Compiler:"gc", Platform:"linux/amd64"}
+```
 
 `istioctl version`
->client version: 1.7.1
->control plane version: 1.7.1
->data plane version: 1.7.1 (11 proxies)
+```
+client version: 1.7.1
+control plane version: 1.7.1
+data plane version: 1.7.1 (11 proxies)
+```
 
 ## Quick Setup
 ```
