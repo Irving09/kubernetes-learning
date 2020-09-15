@@ -8,6 +8,7 @@
 ```
 bash ./setup.sh
 ```
+Run the above command to setup the entire cluster including all instalations below
 
 ### Istio installation
 ```
