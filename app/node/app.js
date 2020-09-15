@@ -11,7 +11,7 @@ const handler = (request, response) => {
   const clientIp = request.connection.remoteAddress;
   console.log('Received request for', request.url, 'from', clientIp);
 
-  const primes = calculatePrimes(500, 100000000);
+  const primes = calculatePrimes(300, 100000000);
 
   response.writeHead(200);
   response.write(JSON.stringify({
