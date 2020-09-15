@@ -21,6 +21,7 @@ import com.inno.springboot.processors.DummyComputation;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -47,7 +48,8 @@ public class HostController {
 
     logger.info("Received request for " + hostname + " from " + clientIp);
 
-    computer.calculate();
+    Random r = new Random();
+    computer.calculatePrimes(300L, 100000000L);
     return new Host(hostname, clientIp, appVersion, "Spring Boot");
   }
 
@@ -61,7 +63,8 @@ public class HostController {
     RestTemplate restTemplate = new RestTemplate();
     ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
     Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
-    computer.calculate();
+    Random r = new Random();
+    computer.calculatePrimes(300L, 100000000L);
     return new NodeJSResponse(host, response);
   }
 

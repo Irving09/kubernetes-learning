@@ -11,33 +11,33 @@ package com.inno.springboot.processors;
 
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author irving09 <innoirvinge@gmail.com>
  */
 @Component
 public class DummyComputation {
-  private BigInteger fib(BigInteger n) {
-    if (n.compareTo(BigInteger.ONE) == -1 || n.compareTo(BigInteger.ONE) == 0 ) return n;
-    else
-      return fib(n.subtract(BigInteger.ONE)).add(fib(n.subtract(BigInteger.ONE).subtract(BigInteger.ONE)));
-  }
 
-  public void calculate() {
-    ExecutorService executorService = Executors.newFixedThreadPool(10);
-    for (int j = 0; j < 10; j++) {
-      final int ID = j;
-      executorService.submit(new Runnable() {
-
-        public void run() {
-          for (int i=0; i < 20; i++) {
-            fib(new BigInteger(String.valueOf(i)));
-          }
+  public List<Long> calculatePrimes(Long iterations, Long multiplier) {
+    List<Long> primes = new ArrayList<>();
+    for (int i = 0; i < iterations; i++) {
+      Long candidate = (Long) (i * (multiplier * new Random().nextLong()));
+      boolean isPrime = true;
+      for (int c = 2; c <= Math.sqrt(candidate); ++c) {
+        if (candidate % c == 0) {
+          // not prime
+          isPrime = false;
+          break;
         }
-      });
+      }
+      if (isPrime) {
+        primes.add(candidate);
+      }
     }
+    return primes;
   }
+
 }
