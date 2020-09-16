@@ -1,3 +1,5 @@
+![kiali-screenshot](./front-page.png)
+
 # Prerequisites
 
 `minikube version --short`
