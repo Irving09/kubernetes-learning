@@ -18,6 +18,14 @@ spec:
           # we are applying the proxy rules to here
   http:
     - name: {{ .Release.Name }}-routes
+      match:
+        - uri:
+            prefix:
+              {{- if eq .Release.Name "hello-springboot" }}
+                "/springboot"
+              {{- else }}
+                "/nodejs"
+              {{ end }}
       route:
       - destination:
           host: {{ .Release.Name }}.default.svc.cluster.local
