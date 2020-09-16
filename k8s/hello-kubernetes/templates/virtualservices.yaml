@@ -17,7 +17,8 @@ spec:
           # In a production environment, place the incoming host
           # we are applying the proxy rules to here
   http:
-    - route:
+    - name: {{ .Release.Name }}-routes
+      route:
       - destination:
           host: {{ .Release.Name }}.default.svc.cluster.local
           port:
