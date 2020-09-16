@@ -1,20 +1,17 @@
 # Prerequisites
 
-- minikube
-- helm
-- kubectl
-- istioctl
-```
-> minikube version --short
-minikube version: v1.13.0
-> helm version --short
-v3.3.1+g249e521
-> kubectl version --short
-Client Version: v1.19.1
-Server Version: v1.19.1
-> istioctl version --short
-1.7.1
-```
+`minikube version --short`
+> minikube version: v1.13.0
+
+`helm version --short`
+> v3.3.1+g249e521
+
+`kubectl version --short`
+> Client Version: v1.19.1
+> Server Version: v1.19.1
+
+`istioctl version --short`
+> 1.7.1
 
 ## Quick Setup
 ```
