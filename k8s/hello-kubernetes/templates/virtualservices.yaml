@@ -19,13 +19,15 @@ spec:
   http:
     - name: {{ .Release.Name }}-routes
       match:
+        {{- if eq .Release.Name "hello-nodejs" }}
         - uri:
-            prefix:
-              {{- if eq .Release.Name "hello-springboot" }}
-                "/springboot"
-              {{- else }}
-                "/nodejs"
-              {{ end }}
+            prefix: "/nodejs2"
+        - uri:
+            prefix: "/nodejs"
+        {{ else }}
+        - uri:
+            prefix: "/springboot"
+        {{ end }}
       route:
       - destination:
           host: {{ .Release.Name }}.default.svc.cluster.local
