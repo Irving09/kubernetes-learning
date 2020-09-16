@@ -21,7 +21,7 @@ spec:
       match:
         {{- if eq .Release.Name "hello-nodejs" }}
         - uri:
-            prefix: "/nodejs2"
+            prefix: "/retry"
         - uri:
             prefix: "/nodejs"
         {{ else }}
