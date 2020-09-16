@@ -1,0 +1,56 @@
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ .Release.Name }}-503
+spec:
+  destination:
+    namespace: default
+    name: {{ .Release.Name }}.default.svc.cluster.local
+  precedence: 1
+  route:
+  - labels:
+      app: {{ .Release.Name }}.default.svc.cluster.local
+  httpFault:
+    abort:
+      percent: 30
+      httpStatus: 503
+
+# 5xx
+#   Envoy will attempt a retry if the upstream server responds with any 5xx response code, 
+#   or does not respond at all (disconnect/reset/read timeout). 
+#   (Includes connect-failure and refused-stream)
+
+# NOTE: Envoy will not retry when a request exceeds x-envoy-upstream-rq-timeout-ms (resulting in a 504 error code). 
+# Use x-envoy-upstream-rq-per-try-timeout-ms if you want to retry when individual attempts take too long. 
+# x-envoy-upstream-rq-timeout-ms is an outer time limit for a request, including any retries that take place.
+
+# connect-failure
+#   Envoy will attempt a retry if a request is failed because of a connection failure to the upstream server (connect timeout, etc.). 
+#   (Included in 5xx)
+
+# gateway-error
+#   This policy is similar to the 5xx policy but will only retry requests that result in a 502, 503, or 504.
+
+# reset
+#   Envoy will attempt a retry if the upstream server does not respond at all (disconnect/reset/read timeout.)
+
+
+
+# NOTE: A connection failure/timeout is a the TCP level, not the request level. This does not include upstream request timeouts specified via x-envoy-upstream-rq-timeout-ms or via route configuration or via virtual host retry policy.
+
+# envoy-ratelimited
+# Envoy will retry if the header x-envoy-ratelimited is present.
+
+# retriable-4xx
+# Envoy will attempt a retry if the upstream server responds with a retriable 4xx response code. Currently, the only response code in this category is 409.
+
+# NOTE: Be careful turning on this retry type. There are certain cases where a 409 can indicate that an optimistic locking revision needs to be updated. Thus, the caller should not retry and needs to read then attempt another write. If a retry happens in this type of case it will always fail with another 409.
+
+# refused-stream
+# Envoy will attempt a retry if the upstream server resets the stream with a REFUSED_STREAM error code. This reset type indicates that a request is safe to retry. (Included in 5xx)
+
+# retriable-status-codes
+# Envoy will attempt a retry if the upstream server responds with any response code matching one defined in either the retry policy or in the x-envoy-retriable-status-codes header.
+
+# retriable-headers
+# Envoy will attempt a retry if the upstream server response includes any headers matching in either the retry policy or in the x-envoy-retriable-header-names header.

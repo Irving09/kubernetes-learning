@@ -28,6 +28,10 @@ spec:
         - uri:
             prefix: "/springboot"
         {{ end }}
+      # retries:
+      #     attempts: 3
+      #     perTryTimeout: 2s
+      #     retryOn: gateway-error,connect-failure,refused-stream
       route:
       - destination:
           host: {{ .Release.Name }}.default.svc.cluster.local

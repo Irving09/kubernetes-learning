@@ -10,7 +10,7 @@ console.log('hostname', os.hostname());
 console.log(('port', listenerPort));
 
 router.get('/hello', handler);
-router.get('/something', handler);
+router.get('/something', retryHandler);
 
 app.use('/nodejs', router);
 app.use('/retry', router);
@@ -29,6 +29,27 @@ function handler(request, response) {
     appVersion: appVersion,
     message: 'NodeJS',
     newstuff: 'testing'
+  }, null, 2));
+}
+
+let retryCount = 0;
+function retryHandler(request, response) {
+  retryCount = (retryCount + 1) % 4;
+
+  if (retryCount % 4 === 0) {
+    throw new Error('mock fail');
+  }
+
+  const clientIp = request.connection.remoteAddress;
+  console.log('Received request for', request.url, 'from', clientIp);
+
+  const primes = calculatePrimes(300, 100000000);
+
+  response.send(JSON.stringify({
+    hostname: os.hostname(),
+    clientIp: clientIp,
+    appVersion: appVersion,
+    message: 'NodeJS - retry route'
   }, null, 2));
 }
 
