@@ -48,3 +48,8 @@ copy port mapped to port 80, in this case 30646
 > curl 192.168.64.6:30646/nodejs/hello
 > curl 192.168.64.6:30646/springboot/hello
 ```
+
+#### View the traffic network
+```
+> istioctl dashboard kiali
+```
