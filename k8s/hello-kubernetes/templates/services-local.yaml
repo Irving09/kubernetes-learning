@@ -10,18 +10,12 @@ spec:
     app: {{ .Release.Name }}
   # Define which ports u are exposing for this service
   # it means it is going to accept traffic at port 80
-  # and forwards traffic to 8080 for pods
+  # and forwards traffic to 8081 for pods
   ports:
   - name: http
     port: 80
     targetPort: {{ .Values.app.port }}
-    nodePort:  
-      {{- if eq .Release.Name "hello-springboot" }}
-        30080
-      {{- else }}
-        30081
-      {{ end }}
-  type: NodePort # Expose a port for local development
+  type: ClusterIP
 
 ---
 

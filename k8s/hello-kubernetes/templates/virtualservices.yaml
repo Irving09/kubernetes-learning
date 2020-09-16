@@ -1,26 +1,55 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
 metadata:
-  name: {{ .Release.Name }}-routing-rules
+  # Just a name for this virtual service - in other words, can call this anything you like
+  name: {{ .Release.Name }}
+  # typically in the same namespace as the service
+  namespace: default
 spec:
-  rules:
-    # For a local setup, a valid dns name is required
-    # You can fake a dns name pointing to minikube ip
-    # by changing your host file located at /etc/hosts
-    - host: innowashere.com
-      http:
-        paths:
-          - path: /springboot
-            pathType: Prefix
-            backend:
-              service:
-                name: hello-springboot
-                port:
-                  number: {{ .Values.app.port }}
-          - path: /nodejs
-            pathType: Prefix
-            backend:
-              service:
-                name: hello-nodejs
-                port:
-                  number: {{ .Values.app.port }}
+  gateways:
+    - hello-kubernetes-gateway
+  hosts:
+    # This is the fully qualified service name
+    # DNS name defined by the kubernetes service
+    # that we are applying routing rules for
+    # - {{ .Release.Name }}.default.svc.cluster.local
+    - "*" # copy the value in the gateway hosts
+          # In a production environment, place the incoming host
+          # we are applying the proxy rules to here
+  http:
+    - route:
+      - destination:
+          host: {{ .Release.Name }}.default.svc.cluster.local
+          port:
+            number: 80
+          subset: green # Reference the name defined in the destination rule for a particular subset
+        weight: 100
+      - destination:
+          host: {{ .Release.Name }}.default.svc.cluster.local
+          port:
+            number: 80
+          subset: blue  # Reference the name defined in the destination rule for a particular subset
+        weight: 0
+
+---
+
+# A configuration of a loadbalancer for a particular service
+# Define which pods should be part of each subset
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: {{ .Release.Name }}
+  namespace: default
+spec:
+  # Find a service with this fully qualified service name
+  host: hello-kubernetes.default.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+  subsets:
+    - labels:          # and select all the pods that have the following labels
+        version: green # with this key value pair
+      name: green      # and assign a name for this subset
+    - labels:
+        version: blue
+      name: blue

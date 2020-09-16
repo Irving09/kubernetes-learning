@@ -2,7 +2,7 @@ const http = require('http');
 const os = require('os');
 const appVersion = 5;
 
-const listenerPort = 8080;
+const listenerPort = 8081;
 console.log('Inno\'s app server is starting...');
 console.log('hostname', os.hostname());
 console.log(('port', listenerPort));

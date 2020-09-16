@@ -5,7 +5,7 @@
 replicas: 2
 imagePullPolicy: Always
 app:
-  port: 8080
+  port: 8081
 springboot:
   nodePort: 30080
 nodejs:
