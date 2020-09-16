@@ -24,8 +24,7 @@ and follow all the prompts.
 
 ## Load test the cluster
 ```
-bash ./utils/nodejs-load.sh
-bash ./utils/springboot-load.sh (in another terminal)
+bash ./load-test.sh (in another terminal)
 ```
 Make sure your cluster is completely booted up and all applications are ready before starting the load tests
 
