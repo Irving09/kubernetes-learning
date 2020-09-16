@@ -3,8 +3,14 @@ FROM node:12
 
 # Adds the app.js file into the container image
 ADD app.js /app.js
+COPY node_modules /node_modules
+COPY package.json /package.json
+COPY package-lock.json /package-lock.json
 
 EXPOSE 8080
+EXPOSE 8081
+
+RUN npm install
 
 # Specifies the command to execute when the image is ran
 ENTRYPOINT ["node", "app.js"]

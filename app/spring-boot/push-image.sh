@@ -4,7 +4,7 @@
 
 COMMIT_NUMBER=$(git rev-parse --short HEAD)
 DOCKER_HUB_IMAGE_COMMIT_TAG=innoirvingdev/hello-springboot:$COMMIT_NUMBER
-DOCKER_HUB_IMAGE_LATEST_TAG=innoirvingdev/hello-springboot:latest
+DOCKER_HUB_IMAGE_LATEST_TAG=innoirvingdev/hello-springboot:green
 
 docker build -t $DOCKER_HUB_IMAGE_COMMIT_TAG .
 docker push $DOCKER_HUB_IMAGE_COMMIT_TAG

@@ -1,30 +1,36 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const router = express.Router();
 const os = require('os');
-const appVersion = 5;
-
+const appVersion = 'green';
 const listenerPort = 8081;
+
 console.log('Inno\'s app server is starting...');
 console.log('hostname', os.hostname());
 console.log(('port', listenerPort));
 
-const handler = (request, response) => {
+router.get('/hello', handler);
+router.get('/something', handler);
+
+app.use('/nodejs', router);
+app.use('/retry', router);
+
+app.listen(listenerPort);
+
+function handler(request, response) {
   const clientIp = request.connection.remoteAddress;
   console.log('Received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
 
-  response.writeHead(200);
-  response.write(JSON.stringify({
+  response.send(JSON.stringify({
     hostname: os.hostname(),
     clientIp: clientIp,
     appVersion: appVersion,
-    message: 'NodeJS'
+    message: 'NodeJS',
+    newstuff: 'testing'
   }, null, 2));
-  response.end('\n');
 }
-
-const server = http.createServer(handler);
-server.listen(listenerPort);
 
 function calculatePrimes(iterations, multiplier) {
   var primes = [];
