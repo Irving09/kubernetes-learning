@@ -42,7 +42,7 @@ metadata:
   namespace: default
 spec:
   # Find a service with this fully qualified service name
-  host: hello-kubernetes.default.svc.cluster.local
+  host: {{ .Release.Name }}.default.svc.cluster.local
   trafficPolicy:
     loadBalancer:
       simple: LEAST_CONN
