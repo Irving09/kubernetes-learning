@@ -21,12 +21,11 @@ Server Version: v1.19.1
 ```
 bash ./setup.sh
 ```
-Run the above command to setup the entire cluster including all instalations below
-and follow all the prompts.
+Run the above command to setup the entire cluster and follow all the prompts.
 
 ## Load test the cluster
 ```
-bash ./load-test.sh (in another terminal)
+bash ./load-test.sh
 ```
 Make sure your cluster is completely booted up and all applications are ready before starting the load tests
 
