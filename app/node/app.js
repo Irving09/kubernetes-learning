@@ -10,7 +10,7 @@ console.log('hostname', os.hostname());
 console.log(('port', listenerPort));
 
 router.get('/hello', helloHandler);
-router.get('/hi', hiHandler);
+router.get('/hi', retryHandler);
 
 app.use('/nodejs', router);
 app.use('/other', router);
@@ -32,19 +32,33 @@ function helloHandler(request, response) {
   }, null, 2));
 }
 
-function hiHandler(request, response) {
+let nextRetryHappens = 1;
+function retryHandler(request, response) {
+  nextRetryHappens = (nextRetryHappens + 1) % 4;
+
   const clientIp = request.connection.remoteAddress;
   console.log('/other/hi received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
-
-  response.send(JSON.stringify({
-    hostname: os.hostname(),
-    clientIp: clientIp,
-    appVersion: appVersion,
-    app: 'NodeJS',
-    message: 'hi response'
-  }, null, 2));
+  if (nextRetryHappens === 0) {
+    response
+      .status(503)
+      .send(JSON.stringify({
+        hostname: os.hostname(),
+        clientIp: clientIp,
+        appVersion: appVersion,
+        message: 'NodeJS - hi response 503 retry'
+      }, null, 2));
+  } else {
+    response.send(JSON.stringify({
+      hostname: os.hostname(),
+      clientIp: clientIp,
+      appVersion: appVersion,
+      app: 'NodeJS',
+      message: 'hi response',
+      nextRetryHappens: nextRetryHappens
+    }, null, 2));
+  }
 }
 
 function calculatePrimes(iterations, multiplier) {
