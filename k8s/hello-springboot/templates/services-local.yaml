@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Values.app.name | .Release.Name }}
 spec:
   # Defines which pod are going to be represented by this service
   selector:
-    app: {{ .Release.Name }}
+    app: {{ .Values.app.name | default .Release.Name }}
   # Define which ports u are exposing for this service
   # it means it is going to accept traffic at port 80
   # and forwards traffic to 8081 for pods

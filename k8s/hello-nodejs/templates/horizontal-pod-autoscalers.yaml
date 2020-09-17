@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Values.app.name | default .Release.Name }}
   namespace: default
 spec:
   maxReplicas: 5
@@ -9,10 +9,5 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Release.Name }}
-  targetCPUUtilizationPercentage:
-    {{- if eq .Release.Name "hello-springboot" }}
-      50
-    {{- else }}
-      100
-    {{ end }}
+    name: {{ .Values.app.name | default .Release.Name }}
+  targetCPUUtilizationPercentage: 100

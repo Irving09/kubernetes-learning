@@ -1,0 +1,18 @@
+# # Discovery + Loadbalancing
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ .Release.Name }}
+# spec:
+#   # Defines which pod are going to be represented by this service
+#   selector:
+#     app: {{ .Release.Name }}
+#   # Define which ports u are exposing for this service
+#   # it means it is going to accept traffic at port 80
+#   # and forwards traffic to 8080 for pods
+#   ports:
+#   - name: http
+#     port: 80
+#     targetPort: 8080
+#   type: LoadBalancer # Expose a port through the Virtual machine (Node)

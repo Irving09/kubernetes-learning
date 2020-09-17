@@ -1,0 +1,58 @@
+# Discovery + Loadbalancing
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.app.name }}
+spec:
+  # Defines which pod are going to be represented by this service
+  selector:
+    app: {{ .Values.app.name }}
+  # Define which ports u are exposing for this service
+  # it means it is going to accept traffic at port 80
+  # and forwards traffic to 8081 for pods
+  ports:
+  - name: http
+    port: 80
+    targetPort: {{ .Values.app.port }}
+  type: ClusterIP
+
+---
+
+# Discovery + Loadbalancing
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: nodejs
+# spec:
+#   # Defines which pod are going to be represented by this service
+#   selector:
+#     app: nodejs
+#   # Define which ports u are exposing for this service
+#   # it means it is going to accept traffic at port 80
+#   # and forwards traffic to 8080 for pods
+#   ports:
+#   - name: http
+#     port: 3000
+#     targetPort: 8080
+#     nodePort: 30081 # Only used for NodePort, anything greater than 30000
+#                     # 30080
+#   type: NodePort # Expose a port through the (Node) Virtual machine
+
+#   # YOU ARE HERE, TRYING TO FIGURE OUT HOW TO DO A SWITCH STATEMENT IN HELM
+
+# # ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: queue
+# # spec:
+# #   selector:
+# #     app: queue
+# #     version: "0"
+# #   ports:
+# #   - name: http
+# #     port: 8161
+# #     nodePort: 30010
+# #   type: NodePort

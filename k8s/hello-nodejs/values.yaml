@@ -5,6 +5,7 @@
 replicas: 2
 imagePullPolicy: Always
 app:
+  name: hello-nodejs
   port: 8081
 springboot:
   nodePort: 30080

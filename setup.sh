@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Boot up the kubernetes cluster using hyperkit vm
-minikube start --kubernetes-version=v1.19.1 --memory=10g --cpus 4 --driver=hyperkit --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook
+minikube start --kubernetes-version=v1.19.1 --memory=4g --cpus 4 --driver=hyperkit --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook
 minikube addons enable ingress
 minikube addons enable metrics-server
 

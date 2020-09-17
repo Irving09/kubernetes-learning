@@ -1,0 +1,13 @@
+# Default values for hello-kubernetes.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicas: 2
+imagePullPolicy: Always
+app:
+  name: hello-nodejs
+  port: 8081
+springboot:
+  nodePort: 30080
+nodejs:
+  nodePort: 30081

@@ -4,22 +4,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-green"
+  name: {{ .Values.app.name | default .Release.Name }}-green
 spec:
   # minReadySeconds: 30
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {{ .Values.app.name }}
   replicas: {{ .Values.replicas }}
   template: # template for the pods - pod definitions
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: {{ .Values.app.name }}
         version: green
     spec:
       containers:
       - name: app
-        image: innoirvingdev/{{ .Release.Name }}:green
+        image: innoirvingdev/hello-nodejs:green
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         # Lets cluster manager know a pod is able to run on a node or not
         resources:
@@ -32,26 +32,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-blue
+  name: {{ .Values.app.name | default .Release.Name }}-blue
 spec:
   # minReadySeconds: 30
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
-      version: blue
+      app: {{ .Values.app.name }}
   replicas: {{ .Values.replicas }}
   template: # template for the pods - pod definitions
     metadata:
       labels:
-        app: {{ .Release.Name }}
-        version: blue
+        app: {{ .Values.app.name }}
+        version: green
     spec:
       containers:
-      - name: app
-        image: innoirvingdev/{{ .Release.Name }}:blue
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
-        # Lets cluster manager know a pod is able to run on a node or not
-        resources:
-          requests:
-            cpu: 20m # m - millicores
-                     # M - megacores
+        - name: app
+          image: innoirvingdev/hello-nodejs:blue
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          # Lets cluster manager know a pod is able to run on a node or not
+          resources:
+            requests:
+              cpu: 20m # m - millicores
+              # M - megacores
