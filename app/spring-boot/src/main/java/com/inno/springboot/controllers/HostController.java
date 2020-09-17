@@ -35,6 +35,8 @@ public class HostController {
 
   private final String appVersion = "1.0";
 
+  private int dummyCounter = 1;
+
   private final DummyComputation computer;
 
   public HostController(DummyComputation dummyComputation) {
@@ -42,30 +44,44 @@ public class HostController {
   }
 
   @GetMapping("/hello")
-  public Host helloClient(HttpServletRequest request) throws UnknownHostException {
+  public ResponseEntity<Host> helloClient(HttpServletRequest request) throws UnknownHostException {
     String hostname = InetAddress.getLocalHost().getHostName();
     String clientIp = request.getRemoteAddr();
 
-    logger.info("Received request for " + hostname + " from " + clientIp);
+    logger.info("/hello received request for " + hostname + " from " + clientIp);
 
     Random r = new Random();
     computer.calculatePrimes(300L, 100000000L);
-    return new Host(hostname, clientIp, appVersion, "Spring Boot");
+    return ResponseEntity.ok(new Host(hostname, clientIp, appVersion, "Spring Boot"));
   }
 
-  @GetMapping("/helloNode")
-  public NodeJSResponse helloNodeClient(HttpServletRequest request) throws UnknownHostException {
+  @GetMapping("/other/hi")
+  public ResponseEntity<Object> helloNodeClient(HttpServletRequest request) throws UnknownHostException {
+    dummyCounter = (dummyCounter + 1) % 4;
+
     String hostname = InetAddress.getLocalHost().getHostName();
     String clientIp = request.getRemoteAddr();
 
-    logger.info("Received request for " + hostname + " from " + clientIp);
+    logger.info("/other/hi received request for " + hostname + " from " + clientIp);
 
     RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
-    Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
-    Random r = new Random();
-    computer.calculatePrimes(300L, 100000000L);
-    return new NodeJSResponse(host, response);
+
+    if (dummyCounter == 0) {
+      return ResponseEntity
+          .status(503)
+          .body(new Host(
+              hostname,
+              clientIp,
+              appVersion,
+              "Springboot - 503 gateway error"
+          ));
+    } else {
+      ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
+      Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
+      computer.calculatePrimes(300L, 100000000L);
+      NodeJSResponse nodejsResponse = new NodeJSResponse(host, response);
+      return ResponseEntity.ok(nodejsResponse);
+    }
   }
 
 }

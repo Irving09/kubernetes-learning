@@ -1,5 +1,5 @@
 apiVersion: v2
-name: hello-kubernetes
+name: hello-springboot
 description: A Helm chart for Kubernetes
 icon: https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png
 

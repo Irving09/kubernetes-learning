@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: innoirvingdev/hello-nodejs:green
+        image: innoirvingdev/hello-springboot:green
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         # Lets cluster manager know a pod is able to run on a node or not
         resources:
@@ -43,11 +43,11 @@ spec:
     metadata:
       labels:
         app: {{ .Values.app.name }}
-        version: green
+        version: blue
     spec:
       containers:
         - name: app
-          image: innoirvingdev/hello-nodejs:blue
+          image: innoirvingdev/hello-springboot:blue
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           # Lets cluster manager know a pod is able to run on a node or not
           resources:

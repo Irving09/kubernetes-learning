@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 MINIKUBE_IP=$(minikube ip)
-echo "starting load test - http://$MINIKUBE_IP:30646/"
+INGRESS_GATEWAY_PORT=$(kubectl get svc -n istio-system | grep istio-ingressgateway | sed -e 's/\(.*\)80://' | sed -e 's/\/TCP\(.*\)//')
+ENDPOINT="http://$MINIKUBE_IP:$INGRESS_GATEWAY_PORT"
+echo "starting load test - $ENDPOINT"
 
 while sleep 1; 
 do 
-  curl http://$MINIKUBE_IP:30646/nodejs/hello
-  curl http://$MINIKUBE_IP:30646/springboot/hello
-  curl http://$MINIKUBE_IP:30646/springboot/helloNode
+  curl $ENDPOINT/nodejs/hello
+  curl $ENDPOINT/other/hi
+  curl $ENDPOINT/springboot/hello
+  curl $ENDPOINT/springboot/helloNode
 done

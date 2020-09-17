@@ -19,7 +19,7 @@ spec:
     - name: {{ .Values.app.name | default .Release.Name }}-routes
       match:
         - uri:
-            prefix: "/other"
+            prefix: "/springboot/other"
       retries:
           attempts: 3
           perTryTimeout: 2s
@@ -37,31 +37,10 @@ spec:
             number: 80
           subset: blue  # Reference the name defined in the destination rule for a particular subset
         weight: 0
-      fault:
-          abort:
-              httpStatus: 503
-              percentage:
-                  value: 50
-
----
-
-# A configuration of a loadbalancer for a particular service
-# Define which pods should be part of each subset
-kind: DestinationRule
-apiVersion: networking.istio.io/v1alpha3
-metadata:
-  name: {{ .Values.app.name | default .Release.Name }}
-  namespace: default
-spec:
-  # Find a service with this fully qualified service name
-  host: {{ .Values.app.name }}.default.svc.cluster.local
-  trafficPolicy:
-    loadBalancer:
-      simple: LEAST_CONN
-  subsets:
-    - labels:          # and select all the pods that have the following labels
-        version: green # with this key value pair
-      name: green      # and assign a name for this subset
-    - labels:
-        version: blue
-      name: blue
+        # The following code currently doesnt work alongside with retry policy
+        # See the issue link: https://github.com/istio/istio/issues/13705
+{{/*      fault:*/}}
+{{/*          abort:*/}}
+{{/*              httpStatus: 503*/}}
+{{/*              percentage:*/}}
+{{/*                  value: 50*/}}

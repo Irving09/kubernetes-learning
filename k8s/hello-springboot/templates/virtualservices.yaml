@@ -19,12 +19,12 @@ spec:
     - name: {{ .Values.app.name | default .Release.Name }}-routes
       match:
         - uri:
-            prefix: "/nodejs"
+            prefix: "/springboot"
       route:
       - destination:
           host: {{ .Values.app.name }}.default.svc.cluster.local
           port:
-            number: {{ .Values.app.port }}
+            number: 80
           subset: green # Reference the name defined in the destination rule for a particular subset
         weight: 100
       - destination:
