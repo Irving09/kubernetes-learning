@@ -37,7 +37,7 @@ spec:
             number: 80
           subset: blue  # Reference the name defined in the destination rule for a particular subset
         weight: 0
-        # The following code currently doesnt work alongside with retry
+        # The following code currently doesnt work alongside with retry policy
         # See the issue link: https://github.com/istio/istio/issues/13705
 {{/*      fault:*/}}
 {{/*          abort:*/}}

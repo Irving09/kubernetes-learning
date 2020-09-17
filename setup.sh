@@ -17,9 +17,10 @@ kubectl apply -f /usr/local/bin/istio-1.7.1/samples/addons/grafana.yaml
 kubectl apply -f /usr/local/bin/istio-1.7.1/samples/addons/jaeger.yaml
 
 # Install applications in the local cluster
-helm install hello-springboot ./k8s/hello-kubernetes
-helm install hello-nodejs ./k8s/hello-kubernetes
-helm install ingress ./k8s/ingress
+cd k8s
+helm install springboot hello-nodejs
+helm install nodejs hello-springboot
+helm install ingress ingress
 
 # This is for non-istio ingress
 #MINIKUBE_IP=$(minikube ip)
