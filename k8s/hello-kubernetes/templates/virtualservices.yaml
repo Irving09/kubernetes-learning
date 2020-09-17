@@ -21,7 +21,7 @@ spec:
       match:
         {{- if eq .Release.Name "hello-nodejs" }}
         - uri:
-            prefix: "/retry"
+            prefix: "/other"
         - uri:
             prefix: "/nodejs"
         {{ else }}
@@ -45,6 +45,13 @@ spec:
             number: 80
           subset: blue  # Reference the name defined in the destination rule for a particular subset
         weight: 0
+      {{- if eq .Release.Name "hello-nodejs" }}
+      fault:
+          abort:
+              httpStatus: 503
+              percentage:
+                  value: 30
+      {{ end }}
 
 ---
 

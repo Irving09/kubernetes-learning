@@ -9,17 +9,17 @@ console.log('Inno\'s app server is starting...');
 console.log('hostname', os.hostname());
 console.log(('port', listenerPort));
 
-router.get('/hello', handler);
-router.get('/something', retryHandler);
+router.get('/hello', helloHandler);
+router.get('/hi', hiHandler);
 
 app.use('/nodejs', router);
-app.use('/retry', router);
+app.use('/other', router);
 
 app.listen(listenerPort);
 
-function handler(request, response) {
+function helloHandler(request, response) {
   const clientIp = request.connection.remoteAddress;
-  console.log('Received request for', request.url, 'from', clientIp);
+  console.log('/nodejs/hello received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
 
@@ -27,21 +27,14 @@ function handler(request, response) {
     hostname: os.hostname(),
     clientIp: clientIp,
     appVersion: appVersion,
-    message: 'NodeJS',
-    newstuff: 'testing'
+    app: 'NodeJS',
+    message: 'hello response'
   }, null, 2));
 }
 
-let retryCount = 0;
-function retryHandler(request, response) {
-  retryCount = (retryCount + 1) % 4;
-
-  if (retryCount % 4 === 0) {
-    throw new Error('mock fail');
-  }
-
+function hiHandler(request, response) {
   const clientIp = request.connection.remoteAddress;
-  console.log('Received request for', request.url, 'from', clientIp);
+  console.log('/other/hi received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
 
@@ -49,7 +42,8 @@ function retryHandler(request, response) {
     hostname: os.hostname(),
     clientIp: clientIp,
     appVersion: appVersion,
-    message: 'NodeJS - retry route'
+    app: 'NodeJS',
+    message: 'hi response'
   }, null, 2));
 }
 
