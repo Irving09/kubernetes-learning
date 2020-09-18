@@ -43,7 +43,7 @@ public class HostController {
     this.computer = dummyComputation;
   }
 
-  @GetMapping("/hello")
+  @GetMapping("/")
   public ResponseEntity<Host> helloClient(HttpServletRequest request) throws UnknownHostException {
     String hostname = InetAddress.getLocalHost().getHostName();
     String clientIp = request.getRemoteAddr();
@@ -55,8 +55,10 @@ public class HostController {
     return ResponseEntity.ok(new Host(hostname, clientIp, appVersion, "Spring Boot"));
   }
 
-  @GetMapping("/other/hi")
+  @GetMapping("/hello")
   public ResponseEntity<Object> helloNodeClient(HttpServletRequest request) throws UnknownHostException {
+    computer.calculatePrimes(300L, 100000000L);
+
     dummyCounter = (dummyCounter + 1) % 4;
 
     String hostname = InetAddress.getLocalHost().getHostName();
@@ -66,22 +68,29 @@ public class HostController {
 
     RestTemplate restTemplate = new RestTemplate();
 
-    if (dummyCounter == 0) {
+//    if (dummyCounter == 0) {
       return ResponseEntity
           .status(503)
           .body(new Host(
               hostname,
               clientIp,
               appVersion,
-              "Springboot - 503 gateway error"
+              "Springboot - 503 gateway error - dummyCounter=" + dummyCounter
           ));
-    } else {
-      ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
-      Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
-      computer.calculatePrimes(300L, 100000000L);
-      NodeJSResponse nodejsResponse = new NodeJSResponse(host, response);
-      return ResponseEntity.ok(nodejsResponse);
-    }
+//    } else {
+//      ResponseEntity<String> response = restTemplate.getForEntity("http://hello-nodejs/hello", String.class);
+//      Host host = new Host(hostname, clientIp, appVersion, "Spring Boot");
+//      NodeJSResponse nodejsResponse = new NodeJSResponse(host, response);
+//      return ResponseEntity.ok(nodejsResponse);
+
+//      return ResponseEntity
+//          .ok(new Host(
+//              hostname,
+//              clientIp,
+//              appVersion,
+//              "Springboot - dummyCounter=" + dummyCounter
+//          ));
+//    }
   }
 
 }

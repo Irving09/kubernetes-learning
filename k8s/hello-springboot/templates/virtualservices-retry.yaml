@@ -19,11 +19,11 @@ spec:
     - name: {{ .Values.app.name | default .Release.Name }}-routes
       match:
         - uri:
-            prefix: "/springboot/other"
-      retries:
-          attempts: 3
-          perTryTimeout: 2s
-          retryOn: gateway-error,connect-failure,refused-stream,5xx
+            prefix: "/springboot/hello"
+{{/*      retries:*/}}
+{{/*          attempts: 3*/}}
+{{/*          perTryTimeout: 2s*/}}
+{{/*          retryOn: gateway-error,connect-failure,refused-stream,5xx*/}}
       route:
       - destination:
           host: {{ .Values.app.name }}.default.svc.cluster.local

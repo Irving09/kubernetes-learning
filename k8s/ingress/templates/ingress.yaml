@@ -1,26 +1,26 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: hello-kubernetes-routing-rules
-spec:
-  rules:
-    # For a local setup, a valid dns name is required
-    # You can fake a dns name pointing to minikube ip
-    # by changing your host file located at /etc/hosts
-    - host: innowashere.com
-      http:
-        paths:
-        - path: /springboot
-          pathType: Prefix
-          backend:
-            service:
-              name: hello-springboot
-              port: 
-                number: {{ .Values.app.port }}
-        - path: /nodejs
-          pathType: Prefix
-          backend:
-            service:
-              name: hello-nodejs
-              port: 
-                number: {{ .Values.app.port }}
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: hello-kubernetes-routing-rules
+# spec:
+#   rules:
+#     # For a local setup, a valid dns name is required
+#     # You can fake a dns name pointing to minikube ip
+#     # by changing your host file located at /etc/hosts
+#     - host: innowashere.com
+#       http:
+#         paths:
+#         - path: /springboot
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: hello-springboot
+#               port: 
+#                 number: {{ .Values.app.port }}
+#         - path: /nodejs
+#           pathType: Prefix
+#           backend:
+#             service:
+#               name: hello-nodejs
+#               port: 
+#                 number: {{ .Values.app.port }}
