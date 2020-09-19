@@ -30,6 +30,17 @@ Run the above command to setup the entire cluster and follow all the prompts.
 bash ./load-test.sh
 ```
 Make sure your cluster is completely booted up and all applications are ready before starting the load tests.
+
+```
+kubectl get pods
+
+NAME                                     READY   STATUS    RESTARTS   AGE
+hello-nodejs-blue-7d95bf59b9-lcbz5       2/2     Running   0          2m14s
+hello-nodejs-green-5658b499f9-m9vj5      2/2     Running   0          2m14s
+hello-springboot-blue-d76b9985-gzw46     2/2     Running   0          2m14s
+hello-springboot-green-9677bbb87-wzzfj   2/2     Running   0          2m14s
+```
+
 Once done, also remember to kill the load test process.
 
 #### How to make a curl request to the applications (istio ingress gateway)
