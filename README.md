@@ -1,5 +1,8 @@
 ![kiali-screenshot](./front-page.png)
 
+## Demo
+[![usage demo](https://asciinema.org/a/360568.svg)](https://asciinema.org/a/360568)
+
 # Prerequisites
 
 ```bash
@@ -29,7 +32,8 @@ Run the above command to setup the entire cluster and follow all the prompts.
 ```
 bash ./load-test.sh
 ```
-Make sure your cluster is completely booted up and all applications are ready before starting the load tests
+Make sure your cluster is completely booted up and all applications are ready before starting the load tests.
+Once done, also remember to kill the load test process.
 
 #### How to make a curl request to the applications (istio ingress gateway)
 ```bash

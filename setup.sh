@@ -26,8 +26,7 @@ echo "**************************************"
 echo "Installing applications on the cluster"
 echo "**************************************"
 cd k8s
-helm install springboot hello-nodejs
-helm install nodejs hello-springboot
+helm install hello-kubernetes hello-kubernetes
 helm install ingress ingress
 
 # This is for non-istio ingress

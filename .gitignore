@@ -248,3 +248,5 @@ fabric.properties
 *.zip
 *.tar.gz
 *.rar
+
+nohup.out
