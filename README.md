@@ -1,8 +1,5 @@
 ![kiali-screenshot](./front-page.png)
 
-## Demo
-[![usage demo](https://asciinema.org/a/360568.svg)](https://asciinema.org/a/360568)
-
 # Prerequisites
 
 ```bash
