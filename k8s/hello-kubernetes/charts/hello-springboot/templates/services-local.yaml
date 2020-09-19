@@ -39,20 +39,3 @@ spec:
 #     nodePort: 30081 # Only used for NodePort, anything greater than 30000
 #                     # 30080
 #   type: NodePort # Expose a port through the (Node) Virtual machine
-
-#   # YOU ARE HERE, TRYING TO FIGURE OUT HOW TO DO A SWITCH STATEMENT IN HELM
-
-# # ---
-# # apiVersion: v1
-# # kind: Service
-# # metadata:
-# #   name: queue
-# # spec:
-# #   selector:
-# #     app: queue
-# #     version: "0"
-# #   ports:
-# #   - name: http
-# #     port: 8161
-# #     nodePort: 30010
-# #   type: NodePort

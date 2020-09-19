@@ -17,10 +17,13 @@ spec:
           # place the incoming host we applying proxy rules here
   http:
     - name: {{ .Values.app.name | default .Release.Name }}-routes
+      # First match if true, gets precedence
       match:
         - uri:
-            prefix: "/nodejs"
+            prefix: "/{{ .Values.app.endpointPrefix }}"
+      # Will route traffic to the following kubernetes services
       route:
+      # with weighted routing, traffic will go to the pods subset labeled green
       - destination:
           host: {{ .Values.app.name }}.default.svc.cluster.local
           port:
@@ -33,7 +36,36 @@ spec:
             number: {{ .Values.app.port }}
           subset: blue  # Reference the name defined in the destination rule for a particular subset
         weight: 0
-
+    # First match if true, next in precedence
+    - name: {{ .Values.app.name | default .Release.Name }}-retry-routes
+      match:
+        - uri:
+            prefix: "/{{ .Values.app.endpointPrefix }}/hello"
+      # will route traffic to the following kubernetes services with a configured retry policy
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: gateway-error,connect-failure,refused-stream,5xx
+      route:
+        - destination:
+            host: {{ .Values.app.name }}.default.svc.cluster.local
+            port:
+              number: 80
+            subset: green # Reference the name defined in the destination rule for a particular subset
+          weight: 100
+        - destination:
+            host: {{ .Values.app.name }}.default.svc.cluster.local
+            port:
+              number: 80
+            subset: blue  # Reference the name defined in the destination rule for a particular subset
+          weight: 0
+          # The following code currently doesnt work alongside with retry policy
+          # See the issue link: https://github.com/istio/istio/issues/13705
+    {{/*      fault:*/}}
+    {{/*          abort:*/}}
+    {{/*              httpStatus: 503*/}}
+    {{/*              percentage:*/}}
+    {{/*                  value: 50*/}}
 ---
 
 # A configuration of a loadbalancer for a particular service

@@ -7,7 +7,7 @@ echo "starting load test - $ENDPOINT"
 while sleep 1; 
 do 
   curl $ENDPOINT/nodejs/hello
-  curl $ENDPOINT/other/hi
+  curl $ENDPOINT/nodejs/hi
+  curl $ENDPOINT/springboot/
   curl $ENDPOINT/springboot/hello
-  curl $ENDPOINT/springboot/helloNode
 done

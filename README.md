@@ -19,6 +19,8 @@ Server Version: v1.19.1
 
 ## Quick Setup
 ```
+git clone https://github.com/Irving09/kubernetes-learning.git
+cd kubernetes-learning
 bash ./setup.sh
 ```
 Run the above command to setup the entire cluster and follow all the prompts.

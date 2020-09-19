@@ -10,16 +10,16 @@ console.log('hostname', os.hostname());
 console.log(('port', listenerPort));
 
 router.get('/hello', helloHandler);
-router.get('/hi', retryHandler);
+router.get('/hi', mockRetryHandler);
 
+app.use('/', router);
 app.use('/nodejs', router);
-app.use('/other', router);
 
 app.listen(listenerPort);
 
 function helloHandler(request, response) {
   const clientIp = request.connection.remoteAddress;
-  console.log('/nodejs/hello received request for', request.url, 'from', clientIp);
+  console.log('/hello received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
 
@@ -33,11 +33,11 @@ function helloHandler(request, response) {
 }
 
 let nextRetryHappens = 1;
-function retryHandler(request, response) {
+function mockRetryHandler(request, response) {
   nextRetryHappens = (nextRetryHappens + 1) % 4;
 
   const clientIp = request.connection.remoteAddress;
-  console.log('/other/hi received request for', request.url, 'from', clientIp);
+  console.log('/hi received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
   if (nextRetryHappens === 0) {

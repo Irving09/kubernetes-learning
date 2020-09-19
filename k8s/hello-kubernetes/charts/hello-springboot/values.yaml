@@ -7,7 +7,7 @@ imagePullPolicy: Always
 app:
   name: hello-springboot
   port: 8081
-springboot:
+  endpointPrefix: springboot
+  imageBlueTagLocation: innoirvingdev/hello-springboot:blue
+  imageGreenTagLocation: innoirvingdev/hello-springboot:green
   nodePort: 30080
-nodejs:
-  nodePort: 30081
