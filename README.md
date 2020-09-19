@@ -29,7 +29,7 @@ Run the above command to setup the entire cluster and follow all the prompts.
 ```
 bash ./load-test.sh
 ```
-Make sure your cluster is completely booted up and all applications are ready before starting the load tests.
+Make sure your cluster is completely booted up and all pods are ready before starting the load tests.
 
 ```
 kubectl get pods
