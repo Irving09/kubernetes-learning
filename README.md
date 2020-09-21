@@ -1,5 +1,8 @@
 ![kiali-screenshot](./front-page.png)
 
+Sample basic kubernetes cluster that have two applications deployed to it.
+It uses Istio for traffic routing to blue/green subsets.
+
 # Prerequisites
 
 ```bash
