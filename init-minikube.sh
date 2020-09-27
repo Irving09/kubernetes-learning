@@ -2,7 +2,13 @@
 echo "***************************************************"
 echo "Booting up the kubernetes cluster using hyperkit vm"
 echo "***************************************************"
-minikube start --kubernetes-version=v1.19.1 --memory 8g --cpus 4 --driver hyperkit --extra-config=kubelet.authentication-token-webhook=true --extra-config=kubelet.authorization-mode=Webhook
+minikube start --kubernetes-version=v1.19.1 \
+               --memory 8192 \
+               --cpus 4 \
+               --driver hyperkit \
+               --show-libmachine-logs \
+               --extra-config=kubelet.authentication-token-webhook=true \
+               --extra-config=kubelet.authorization-mode=Webhook \
 minikube addons enable ingress
 minikube addons enable metrics-server
 
