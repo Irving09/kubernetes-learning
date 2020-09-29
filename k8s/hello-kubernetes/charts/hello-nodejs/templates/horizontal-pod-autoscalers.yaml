@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Values.app.name | default .Release.Name }}
+  name: {{ .Values.app.name | default .Release.Name }}-blue
   namespace: default
 spec:
   maxReplicas: 10
@@ -9,5 +9,21 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.app.name | default .Release.Name }}
+    name: {{ .Values.app.name }}-blue
+  targetCPUUtilizationPercentage: 100
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.app.name | default .Release.Name }}-green
+  namespace: default
+spec:
+  maxReplicas: 10
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.app.name }}-green
   targetCPUUtilizationPercentage: 100
