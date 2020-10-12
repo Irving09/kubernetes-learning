@@ -4,6 +4,22 @@ const router = express.Router();
 const os = require('os');
 const appVersion = 'green';
 const listenerPort = 8081;
+const tracer = require('jaeger-client').initTracer({
+    serviceName: 'hello-nodejs',
+    sampler: { 
+      type: 'const', 
+      param: 1 // Only for DEV the sampler will report every span
+               // DONT DO THIS IN PRODUCTION
+    }
+});
+const opentracing = require('opentracing');
+
+// to work with istio we need to handle b3/zipkin header format
+const ZipkinB3TextMapCodec = require('jaeger-client').ZipkinB3TextMapCodec
+let codec = new ZipkinB3TextMapCodec({ urlEncoding: true });
+tracer.registerInjector(opentracing.FORMAT_HTTP_HEADERS, codec);
+tracer.registerExtractor(opentracing.FORMAT_HTTP_HEADERS, codec);
+opentracing.initGlobalTracer(tracer);
 
 console.log('Inno\'s app server is starting...');
 console.log('hostname', os.hostname());
@@ -18,22 +34,37 @@ app.use('/nodejs', router);
 app.listen(listenerPort);
 
 function helloHandler(request, response) {
+  const tracer = opentracing.globalTracer();
+  const wireCtx = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, request.headers);
+  const span = tracer.startSpan(request.path, { childOf: wireCtx });
+  // Use the log api to capture a log
+  span.log({ event: 'request_received' });
+
+  // Use the setTag api to capture standard span tags for http traces
+  span.setTag(opentracing.Tags.HTTP_METHOD, request.method);
+  span.setTag(opentracing.Tags.SPAN_KIND, opentracing.Tags.SPAN_KIND_RPC_SERVER);
+  span.setTag(opentracing.Tags.HTTP_URL, request.path);
+
   const clientIp = request.connection.remoteAddress;
   console.log('/hello received request for', request.url, 'from', clientIp);
 
   const primes = calculatePrimes(300, 100000000);
 
-  response.send(JSON.stringify({
+  const result = {
     hostname: os.hostname(),
     clientIp: clientIp,
     appVersion: appVersion,
     app: 'NodeJS',
     message: 'hello response'
-  }, null, 2));
+  };
+
+  tracer.inject(span, opentracing.FORMAT_HTTP_HEADERS, result)
+  span.finish();
+  response.send(JSON.stringify(result, null, 2));
 }
 
 let nextRetryHappens = 1;
-function mockRetryHandler(request, response) {
+function mockRetryHandler(request, response, next) {
   nextRetryHappens = (nextRetryHappens + 1) % 4;
 
   const clientIp = request.connection.remoteAddress;
