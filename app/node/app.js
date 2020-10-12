@@ -69,9 +69,9 @@ function helloHandler(request, response) {
 }
 
 let nextRetryHappens = 1;
-function mockRetryHandler(request, response, next) {
+function mockRetryHandler(request, response) {
   const tracer = opentracing.globalTracer();
-  const span = startSpan(tracer);
+  const span = startSpan(tracer, request);
 
   nextRetryHappens = (nextRetryHappens + 1) % 4;
 
