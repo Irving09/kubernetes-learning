@@ -33,8 +33,7 @@ app.use('/nodejs', router);
 
 app.listen(listenerPort);
 
-function helloHandler(request, response) {
-  const tracer = opentracing.globalTracer();
+function startSpan(tracer, request) {
   const wireCtx = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, request.headers);
   const span = tracer.startSpan(request.path, { childOf: wireCtx });
   // Use the log api to capture a log
@@ -44,6 +43,12 @@ function helloHandler(request, response) {
   span.setTag(opentracing.Tags.HTTP_METHOD, request.method);
   span.setTag(opentracing.Tags.SPAN_KIND, opentracing.Tags.SPAN_KIND_RPC_SERVER);
   span.setTag(opentracing.Tags.HTTP_URL, request.path);
+  return span;
+}
+
+function helloHandler(request, response) {
+  const tracer = opentracing.globalTracer();
+  const span = startSpan(tracer, request);
 
   const clientIp = request.connection.remoteAddress;
   console.log('/hello received request for', request.url, 'from', clientIp);
@@ -66,15 +71,8 @@ function helloHandler(request, response) {
 let nextRetryHappens = 1;
 function mockRetryHandler(request, response, next) {
   const tracer = opentracing.globalTracer();
-  const wireCtx = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, request.headers);
-  const span = tracer.startSpan(request.path, { childOf: wireCtx });
-  // Use the log api to capture a log
-  span.log({ event: 'request_received' });
+  const span = startSpan(tracer);
 
-  // Use the setTag api to capture standard span tags for http traces
-  span.setTag(opentracing.Tags.HTTP_METHOD, request.method);
-  span.setTag(opentracing.Tags.SPAN_KIND, opentracing.Tags.SPAN_KIND_RPC_SERVER);
-  span.setTag(opentracing.Tags.HTTP_URL, request.path);
   nextRetryHappens = (nextRetryHappens + 1) % 4;
 
   const clientIp = request.connection.remoteAddress;
