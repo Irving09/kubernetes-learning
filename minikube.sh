@@ -25,17 +25,19 @@ helm install ingress ingress
 echo "*******************************************"
 echo "Installing Jaeger for Observability Metrics"
 echo "*******************************************"
-kubectl create namespace observability
-kubectl apply -f ./jaeger/jaegertracing.io_jaegers_crd.yaml -n observability
-kubectl apply -f ./jaeger/service_account.yaml -n observability
-kubectl apply -f ./jaeger/role.yaml -n observability
-kubectl apply -f ./jaeger/role_binding.yaml -n observability
-kubectl apply -f ./jaeger/operator.yaml -n observability
-sleep 10
-kubectl apply -f ./jaeger/cluster_role.yaml -n observability
-kubectl apply -f ./jaeger/cluster_role_binding.yaml -n observability
-sleep 10
-kubectl apply -f ./jaeger/jaeger-instance.yaml -n observability
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/jaegertracing.io_jaegers_crd.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
+
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
+
+kubectl apply -f - <<EOF
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: simplest
+EOF
 
 # Above files are taken from here
 # https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/jaegertracing.io_jaegers_crd.yaml

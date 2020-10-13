@@ -5,6 +5,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.name | default .Release.Name }}-green
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
 spec:
   # minReadySeconds: 30
   selector:
@@ -33,6 +35,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.name | default .Release.Name }}-blue
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
 spec:
   # minReadySeconds: 30
   selector:
