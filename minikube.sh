@@ -31,10 +31,10 @@ kubectl apply -f ./jaeger/service_account.yaml -n observability
 kubectl apply -f ./jaeger/role.yaml -n observability
 kubectl apply -f ./jaeger/role_binding.yaml -n observability
 kubectl apply -f ./jaeger/operator.yaml -n observability
-sleep 5
+sleep 10
 kubectl apply -f ./jaeger/cluster_role.yaml -n observability
 kubectl apply -f ./jaeger/cluster_role_binding.yaml -n observability
-sleep 5
+sleep 10
 kubectl apply -f ./jaeger/jaeger-instance.yaml -n observability
 
 # Above files are taken from here
