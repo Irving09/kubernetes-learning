@@ -27,12 +27,8 @@ spec:
         - name: WATCH_NAMESPACE
           value: ""
         - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
+          value: ""
         - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
+          value: ""
         - name: OPERATOR_NAME
           value: "jaeger-operator"
